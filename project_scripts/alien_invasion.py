@@ -32,9 +32,6 @@ class AlienInvasion:
         self.aliens = pygame.sprite.Group()
         self._create_fleet()
 
-        # Start Alien Invasion in an active state.
-        self.game_active = True
-
         # Start Alien Invasion in an inactive state
         self.game_active = False
 
@@ -72,8 +69,6 @@ class AlienInvasion:
         if self.play_button.rect.collidepoint(mouse_pos):
             button_clicked = self.play_button.rect.collidepoint(mouse_pos)
             if button_clicked and not self.game_active:
-                # Reset the game settings.
-                self.settings.initialize_dynamic_settings()
 
                 # Reset the game statistics.
                 self.stats.reset_stats()
@@ -154,24 +149,24 @@ class AlienInvasion:
         self._check_aliens_bottom()
 
 
-        def _ship_hit(self):
-            """Respond to the ship being hit by an alien."""
-            if self.stats.ships_left > 0:
-                # Decrement ships_left.
-                self.stats.ships_left -= 1
+    def _ship_hit(self):
+        """Respond to the ship being hit by an alien."""
+        if self.stats.ships_left > 0:
+            # Decrement ships_left.
+            self.stats.ships_left -= 1
 
-                # Get rid of any remaining bullets and aliens.
-                self.bullets.empty()
-                self.aliens.empty()
+            # Get rid of any remaining bullets and aliens.
+            self.bullets.empty()
+            self.aliens.empty()
 
-                # Create a new fleet and center the ship.
-                self._create_fleet()
-                self.ship.center_ship()
-                # Pause.
-                sleep(0.5)
-            else:
-                self.game_active = False
-                pygame.mouse.set_visible(True)
+            # Create a new fleet and center the ship.
+            self._create_fleet()
+            self.ship.center_ship()
+            # Pause.
+            sleep(0.5)
+        else:
+            self.game_active = False
+            pygame.mouse.set_visible(True)
 
 
     def _create_fleet(self):
